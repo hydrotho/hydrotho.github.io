@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="google-site-verification" content="xyC7ab22fH2WUsJjC83-VhBuopXXLkyj9ekvylz-dFs">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hydrotho.github.io","root":"/","scheme":"Gemini","version":"8.0.1","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="使用 RSS (简易信息聚合) 订阅能更快地获取信息，网站提供 RSS 输出，有利于让用户获取网站内容的最新更新。网络用户可以在客户端借助于支持 RSS 的聚合工具软件，在不打开网站内容页面的情况下阅读支持 RSS 输出的网站内容。  来源多样的个性化“聚合”特性  信息发布的时效、低成本特性  无“垃圾”信息、便利的本地内容管理特性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用 Miniflux 自建 RSS">
+<meta property="og:url" content="https://hydrotho.github.io/Miniflux-Build-Guide/">
+<meta property="og:site_name" content="折腾 ∞ -- Just for Fun">
+<meta property="og:description" content="使用 RSS (简易信息聚合) 订阅能更快地获取信息，网站提供 RSS 输出，有利于让用户获取网站内容的最新更新。网络用户可以在客户端借助于支持 RSS 的聚合工具软件，在不打开网站内容页面的情况下阅读支持 RSS 输出的网站内容。  来源多样的个性化“聚合”特性  信息发布的时效、低成本特性  无“垃圾”信息、便利的本地内容管理特性">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hydrotho.github.io/Miniflux-Build-Guide/ephRocEMbroMaCtYRI.jpg">
+<meta property="og:image" content="https://hydrotho.github.io/Miniflux-Build-Guide/HateurFORmourEcTio.jpg">
+<meta property="og:image" content="https://hydrotho.github.io/Miniflux-Build-Guide/tIongErtISkyLaRLEY.jpg">
+<meta property="og:image" content="https://hydrotho.github.io/Miniflux-Build-Guide/mASticiSHaUDLETHeu.jpg">
+<meta property="article:published_time" content="2019-08-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-30T16:00:00.000Z">
+<meta property="article:author" content="名無し">
+<meta property="article:tag" content="IT,Tech,Guide,日志,教程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hydrotho.github.io/Miniflux-Build-Guide/ephRocEMbroMaCtYRI.jpg">
+
+
+<link rel="canonical" href="https://hydrotho.github.io/Miniflux-Build-Guide/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>利用 Miniflux 自建 RSS | 折腾 ∞ -- Just for Fun</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180228104-1"></script>
+    <script data-pjax>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-180228104-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">折腾 ∞ -- Just for Fun</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录折腾日常</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8E-Tiny-Tiny-RSS-%E5%AF%B9%E6%AF%94"><span class="nav-number">1.</span> <span class="nav-text">与 Tiny Tiny RSS 对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.</span> <span class="nav-text">安装服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-%E6%9B%B4%E6%96%B0-%E7%B3%BB%E7%BB%9F%E5%92%8C%E8%BD%AF%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">安装&#x2F;更新 系统和软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker"><span class="nav-number">2.2.</span> <span class="nav-text">Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">2.2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E5%AE%89%E8%A3%85"><span class="nav-number">2.2.2.</span> <span class="nav-text">验证安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Docker-Compose"><span class="nav-number">2.2.3.</span> <span class="nav-text">Docker Compose</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Miniflux"><span class="nav-number">2.3.</span> <span class="nav-text">Miniflux</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Docker-Compose-%E5%AE%89%E8%A3%85"><span class="nav-number">2.3.1.</span> <span class="nav-text">使用 Docker Compose 安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8-Miniflux"><span class="nav-number">2.3.2.</span> <span class="nav-text">启动 Miniflux</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Caddy"><span class="nav-number">2.4.</span> <span class="nav-text">Caddy</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-1"><span class="nav-number">2.4.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-number">2.4.2.</span> <span class="nav-text">配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Miniflux-%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">Miniflux 使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E9%A1%B5%E7%AB%AF"><span class="nav-number">3.1.</span> <span class="nav-text">网页端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF"><span class="nav-number">3.2.</span> <span class="nav-text">移动端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD"><span class="nav-number">3.3.</span> <span class="nav-text">高级功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E5%86%99%E8%A7%84%E5%88%99"><span class="nav-number">3.3.1.</span> <span class="nav-text">重写规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%89%94%E9%99%A4%E8%A7%84%E5%88%99"><span class="nav-number">3.3.2.</span> <span class="nav-text">剔除规则</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RSSHub-%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF-RSS"><span class="nav-number">4.</span> <span class="nav-text">RSSHub - 万物皆可 RSS</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="名無し"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">名無し</p>
+  <div class="site-description" itemprop="description">めあくあてぇてぇ</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hydrotho.github.io/Miniflux-Build-Guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="名無し">
+      <meta itemprop="description" content="めあくあてぇてぇ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="折腾 ∞ -- Just for Fun">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          利用 Miniflux 自建 RSS
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-09-01 00:00:00" itemprop="dateCreated datePublished" datetime="2019-09-01T00:00:00+08:00">2019-09-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-10-01 00:00:00" itemprop="dateModified" datetime="2020-10-01T00:00:00+08:00">2020-10-01</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>使用 RSS (简易信息聚合) 订阅能更快地获取信息，网站提供 RSS 输出，有利于让用户获取网站内容的最新更新。网络用户可以在客户端借助于支持 RSS 的聚合工具软件，在不打开网站内容页面的情况下阅读支持 RSS 输出的网站内容。</p>
+<ul>
+<li><p>来源多样的个性化“聚合”特性</p>
+</li>
+<li><p>信息发布的时效、低成本特性</p>
+</li>
+<li><p>无“垃圾”信息、便利的本地内容管理特性</p>
+</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="与-Tiny-Tiny-RSS-对比"><a href="#与-Tiny-Tiny-RSS-对比" class="headerlink" title="与 Tiny Tiny RSS 对比"></a><strong>与 Tiny Tiny RSS 对比</strong></h2><blockquote>
+<p>Miniflux 和 Tiny Tiny RSS 是两个优秀的免费开源 RSS 聚合阅读器。</p>
+</blockquote>
+<p>虽然 Tiny Tiny RSS 比较成熟，可是用 <code>PHP</code> 写成的 Tiny Tiny RSS，实在太「重」。如果你感兴趣的话，推荐尝试 <a target="_blank" rel="noopener" href="https://ttrss.henry.wang/zh/"><strong>Awesome TTRSS</strong></a> 这个项目，Awesome TTRSS 旨在提供一个 <strong>「一站式容器化」</strong> 的 Tiny Tiny RSS 解决方案，通过提供简易的部署方式以及一些额外插件，以提升用户体验。</p>
+<p>Miniflux 是基于 <code>GO</code> 编写的，程序设计极简，无外部依赖，功能却丝毫不差。但与此同时，它也存在一些问题：文档不够丰富，文档坑略多。</p>
+<h2 id="安装服务"><a href="#安装服务" class="headerlink" title="安装服务"></a><strong>安装服务</strong></h2><p>以 <strong><code>CentOS 7</code></strong> 为例</p>
+<h3 id="安装-更新-系统和软件"><a href="#安装-更新-系统和软件" class="headerlink" title="安装/更新 系统和软件"></a><strong>安装/更新 系统和软件</strong></h3><p>如购买中国大陆服务器，建议更改 CentOS 源</p>
+<pre class="language-shell" data-language="shell"><code class="language-shell"># 备份 CentOS-Base.repo
+$ sudo mv &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo.bak
+
+# 更换为阿里云镜像
+$ sudo wget -O &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;repo&#x2F;Centos-7.repo
+
+# 清除缓存
+$ sudo yum clean all
+
+# 更新所有软件
+$ sudo yum update</code></pre>
+
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a><strong>Docker</strong></h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a><strong>安装</strong></h4><pre class="language-shell" data-language="shell"><code class="language-shell">$ sudo yum install -y yum-utils
+$ sudo yum-config-manager \
+    --add-repo \
+    https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo
+$ sudo yum install docker-ce docker-ce-cli containerd.io</code></pre>
+
+<h4 id="验证安装"><a href="#验证安装" class="headerlink" title="验证安装"></a><strong>验证安装</strong></h4><pre class="language-shell" data-language="shell"><code class="language-shell">$ sudo docker run hello-world</code></pre>
+
+<p>显示类似界面，即为安装成功</p>
+<img data-src="/Miniflux-Build-Guide/ephRocEMbroMaCtYRI.jpg" class="" title="Docker 安装成功">
+
+<h4 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a><strong>Docker Compose</strong></h4><blockquote>
+<p>Compose 项目是 Docker 官方的开源项目，负责实现对 Docker 容器集群的快速编排。</p>
+</blockquote>
+<p>安装  Compose</p>
+<pre class="language-shell" data-language="shell"><code class="language-shell">$ sudo curl -L https:&#x2F;&#x2F;github.com&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;1.27.2&#x2F;docker-compose-Linux-x86_64 -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose
+
+$ sudo chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</code></pre>
+
+<p>请注意将上述命令中 <code>1.27.2</code> 替换为 Docker - Compose 的 <a target="_blank" rel="noopener" href="https://github.com/docker/compose/releases/latest"><strong>最新版本</strong></a></p>
+<h3 id="Miniflux"><a href="#Miniflux" class="headerlink" title="Miniflux"></a><strong>Miniflux</strong></h3><h4 id="使用-Docker-Compose-安装"><a href="#使用-Docker-Compose-安装" class="headerlink" title="使用 Docker Compose 安装"></a><strong>使用 Docker Compose 安装</strong></h4><p>创建 <code>~/miniflux</code> 目录</p>
+<pre class="language-shell" data-language="shell"><code class="language-shell">$ mkdir ~&#x2F;miniflux &amp;&amp; cd ~&#x2F;miniflux</code></pre>
+
+<p>创建并修改 <code>docker-compose.yml</code></p>
+<pre class="language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">'3'</span>
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">miniflux</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> miniflux/miniflux<span class="token punctuation">:</span>latest
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">"&lt;端口>:8080"</span>
+    <span class="token key atrule">depends_on</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> db
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> DATABASE_URL=postgres<span class="token punctuation">:</span>//miniflux<span class="token punctuation">:</span>&lt;密码<span class="token punctuation">></span>@db/miniflux<span class="token punctuation">?</span>sslmode=disable
+      <span class="token punctuation">-</span> RUN_MIGRATIONS=1
+      <span class="token punctuation">-</span> CREATE_ADMIN=1
+      <span class="token punctuation">-</span> ADMIN_USERNAME=&lt;管理员用户名<span class="token punctuation">></span>
+      <span class="token punctuation">-</span> ADMIN_PASSWORD=&lt;管理员密码<span class="token punctuation">></span>
+  <span class="token key atrule">db</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> postgres<span class="token punctuation">:</span>latest
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> POSTGRES_USER=miniflux
+      <span class="token punctuation">-</span> POSTGRES_PASSWORD=&lt;密码<span class="token punctuation">></span>
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> miniflux<span class="token punctuation">-</span>db<span class="token punctuation">:</span>/var/lib/postgresql/data
+<span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+  <span class="token key atrule">miniflux-db</span><span class="token punctuation">:</span> </code></pre>
+
+<h4 id="启动-Miniflux"><a href="#启动-Miniflux" class="headerlink" title="启动 Miniflux"></a><strong>启动 Miniflux</strong></h4><pre class="language-shell" data-language="shell"><code class="language-shell">$ docker-compose up -d</code></pre>
+
+<p>此时浏览器输入 <code>IP:&lt;端口&gt;</code> 应该已经可以访问 Miniflux。如无法访问，请检查本机的防火墙设置。</p>
+<img data-src="/Miniflux-Build-Guide/HateurFORmourEcTio.jpg" class="" title="Miniflux 登录界面">
+
+<h3 id="Caddy"><a href="#Caddy" class="headerlink" title="Caddy"></a><strong>Caddy</strong></h3><h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a><strong>安装</strong></h4><pre class="language-shell" data-language="shell"><code class="language-shell">$ yum install yum-plugin-copr
+$ yum copr enable @caddy&#x2F;caddy
+$ yum install caddy</code></pre>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a><strong>配置</strong></h4><p>创建并修改 <code>~/miniflux/Caddyfile</code></p>
+<pre class="language-none"><code class="language-none">&lt;域名&gt; &#123;
+    tls &lt;邮箱&gt;
+    reverse_proxy localhost:&lt;端口&gt;
+    header &#123;
+      Strict-Transport-Security max-age&#x3D;31536000;
+      X-Content-Type-Options nosniff
+      X-Frame-Options DENY
+      Referrer-Policy no-referrer-when-downgrade
+    &#125;
+    encode gzip 
+    log
+&#125;</code></pre>
+
+<p>此时应该已可以通过域名访问 Miniflux。如无法访问，请检查本机的防火墙设置。</p>
+<h2 id="Miniflux-使用"><a href="#Miniflux-使用" class="headerlink" title="Miniflux 使用"></a><strong>Miniflux 使用</strong></h2><h3 id="网页端"><a href="#网页端" class="headerlink" title="网页端"></a><strong>网页端</strong></h3><p>登录后，可在 <code>Settings</code> 中更改语言为<code>简体中文</code>，也可更换主题</p>
+<img data-src="/Miniflux-Build-Guide/tIongErtISkyLaRLEY.jpg" class="" title="Miniflux 设置界面">
+
+<h3 id="移动端"><a href="#移动端" class="headerlink" title="移动端"></a><strong>移动端</strong></h3><p>在 “设置” ⇨ “集成” 中，开启 <code>Fever</code> 。建议搭配 <a target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.seazon.feedme"><strong>FeedMe</strong></a> (Android) 或 <a target="_blank" rel="noopener" href="https://reederapp.com/"><strong>Reeder</strong></a> (Apple) 使用。</p>
+<img data-src="/Miniflux-Build-Guide/mASticiSHaUDLETHeu.jpg" class="" title="Miniflux Fever API 设置">
+
+<h3 id="高级功能"><a href="#高级功能" class="headerlink" title="高级功能"></a><strong>高级功能</strong></h3><h4 id="重写规则"><a href="#重写规则" class="headerlink" title="重写规则"></a><strong>重写规则</strong></h4><p>为改善阅读体验，Miniflux 允许通过添加重写规则实现诸如：为漫画源的图片下方添加图片标题</p>
+<p><a target="_blank" rel="noopener" href="https://miniflux.app/docs/rules.html#rewrite-rules"><strong>官方文档 - Rewrite Rules</strong></a></p>
+<h4 id="剔除规则"><a href="#剔除规则" class="headerlink" title="剔除规则"></a><strong>剔除规则</strong></h4><p>当 RSS 源仅提供文章摘要时，我们可以通过获取原始内容搭配剔除规则的方式来抓取文章内容</p>
+<p><a target="_blank" rel="noopener" href="https://miniflux.app/docs/rules.html#scraper-rules"><strong>官方文档 - Scraper Rules</strong></a></p>
+<h2 id="RSSHub-万物皆可-RSS"><a href="#RSSHub-万物皆可-RSS" class="headerlink" title="RSSHub - 万物皆可 RSS"></a><strong>RSSHub - 万物皆可 RSS</strong></h2><blockquote>
+<p>RSSHub 是一个轻量、易于扩展的 RSS 生成器，可以给任何奇奇怪怪的内容生成 RSS 订阅源，配合浏览器扩展 <a target="_blank" rel="noopener" href="https://github.com/DIYgod/RSSHub-Radar"><strong>RSSHub Radar</strong></a> 食用效果更佳</p>
+</blockquote>
+<p>除了 RSS 阅读器之外，RSS 订阅源更是重中之重，然而很多内容提供者 (包括但不仅限于<code>哔哩哔哩</code>、<code>微信公众号</code>) 并不提供 RSS，但我们可以使用 RSSHub 来获取 RSS 链接。</p>
+<p>具体使用方法请参考项目 <a target="_blank" rel="noopener" href="https://docs.rsshub.app/"><strong>官方文档</strong></a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>名無し
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://hydrotho.github.io/Miniflux-Build-Guide/" title="利用 Miniflux 自建 RSS">https://hydrotho.github.io/Miniflux-Build-Guide/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/Windows-10-Themes/" rel="next" title="Windows 10 安装第三方主题">
+                  Windows 10 安装第三方主题 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">名無し</span>
+</div>
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+    <div class="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@2.0.0/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink.listen({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://hydrotho.github.io/Miniflux-Build-Guide/',]
+      });
+      });
+  </script>
+
+    </div>
+</body>
+</html>

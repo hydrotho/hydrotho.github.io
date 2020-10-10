@@ -1,0 +1,9 @@
+User-agent: *
+
+Allow: /
+Allow: /archives/
+
+Disallow: /css/
+Disallow: /js/
+
+Sitemap: https://hydrotho.github.io/sitemap.xml
