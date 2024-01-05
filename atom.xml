@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>名無し&#39;s Blog</title>
+  
+  <subtitle>记录折腾日常</subtitle>
+  <link href="https://hydrotho.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://hydrotho.github.io/"/>
+  <updated>2022-11-30T04:00:00.000Z</updated>
+  <id>https://hydrotho.github.io/</id>
+  
+  <author>
+    <name>名無し</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WSL2 中 Systemd 处于降级状态的原因分析及解决方案</title>
+    <link href="https://hydrotho.github.io/Analysis-Of-The-Causes-And-Solutions-Of-Systemd-In-Degraded-State-In-WSL2/"/>
+    <id>https://hydrotho.github.io/Analysis-Of-The-Causes-And-Solutions-Of-Systemd-In-Degraded-State-In-WSL2/</id>
+    <published>2022-11-30T04:00:00.000Z</published>
+    <updated>2022-11-30T04:00:00.000Z</updated>
+    
+    
+    <summary type="html">WSL2 现已官方支持 Systemd，可实际上手体验后发现 WSL2 中 Systemd 处于降级状态。本文将分析 WSL2 中 Systemd 处于降级状态的原因并附上解决方案。</summary>
+    
+    
+    
+    
+    <category term="Windows" scheme="https://hydrotho.github.io/tags/Windows/"/>
+    
+    <category term="Linux" scheme="https://hydrotho.github.io/tags/Linux/"/>
+    
+    <category term="WSL" scheme="https://hydrotho.github.io/tags/WSL/"/>
+    
+    <category term="WSL2" scheme="https://hydrotho.github.io/tags/WSL2/"/>
+    
+    <category term="Systemd" scheme="https://hydrotho.github.io/tags/Systemd/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python 编译「静态」可执行文件 (PyInstaller + StaticX)</title>
+    <link href="https://hydrotho.github.io/Compiling-Python-Application-Into-Static-Binary-Using-PyInstaller-And-StaticX/"/>
+    <id>https://hydrotho.github.io/Compiling-Python-Application-Into-Static-Binary-Using-PyInstaller-And-StaticX/</id>
+    <published>2022-10-10T04:00:00.000Z</published>
+    <updated>2022-10-10T04:00:00.000Z</updated>
+    
+    
+    <summary type="html">本文将介绍如何将一个 Python 应用程序编译成可执行文件，同时规避动态链接库的依赖问题，实现单文件分发部署。</summary>
+    
+    
+    
+    
+    <category term="Python" scheme="https://hydrotho.github.io/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>解读 OpenHarmony 系统开机动画源码</title>
+    <link href="https://hydrotho.github.io/Analysis-Of-The-Boot-Screen-Source-Code-Of-OpenHarmony/"/>
+    <id>https://hydrotho.github.io/Analysis-Of-The-Boot-Screen-Source-Code-Of-OpenHarmony/</id>
+    <published>2022-09-15T04:00:00.000Z</published>
+    <updated>2022-09-15T04:00:00.000Z</updated>
+    
+    
+    <summary type="html">本文将基于 OpenHarmony 3.2 源码，分析 Graphic 子系统 2D 图形库中的 OpenHarmony 系统开机动画源码。</summary>
+    
+    
+    
+    
+    <category term="OpenHarmony" scheme="https://hydrotho.github.io/tags/OpenHarmony/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>解决 Linux 下 JetBrains 全家桶无法识别使用 Node 版本管理器安装的 Node 的问题</title>
+    <link href="https://hydrotho.github.io/How-To-Use-Node-Version-Manager-With-JetBrains-Tools/"/>
+    <id>https://hydrotho.github.io/How-To-Use-Node-Version-Manager-With-JetBrains-Tools/</id>
+    <published>2022-09-10T04:00:00.000Z</published>
+    <updated>2022-09-10T04:00:00.000Z</updated>
+    
+    
+    <summary type="html">本文将介绍如何解决 Linux 下，JetBrains 全家桶无法识别使用 Node 版本管理器安装的 Node 的问题。</summary>
+    
+    
+    
+    
+    <category term="Linux" scheme="https://hydrotho.github.io/tags/Linux/"/>
+    
+    <category term="Node.js" scheme="https://hydrotho.github.io/tags/Node-js/"/>
+    
+    <category term="JavaScript" scheme="https://hydrotho.github.io/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>浅谈 OpenHarmony 中北向应用实现页面跳转的几种方式</title>
+    <link href="https://hydrotho.github.io/An-Overview-Of-Several-Ways-To-Implement-Page-Routing-In-Openharmony/"/>
+    <id>https://hydrotho.github.io/An-Overview-Of-Several-Ways-To-Implement-Page-Routing-In-Openharmony/</id>
+    <published>2022-09-05T04:00:00.000Z</published>
+    <updated>2022-09-05T04:00:00.000Z</updated>
+    
+    
+    <summary type="html">本文将介绍 OpenHarmony 中北向应用实现页面跳转的几种方式，涵盖了目前 (OpenHarmony v3.2) 常见的所有方法，开发者可以根据场景需求自行选择。</summary>
+    
+    
+    
+    
+    <category term="OpenHarmony" scheme="https://hydrotho.github.io/tags/OpenHarmony/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>浅析 PowerShell 中的 PSReadLine 模块</title>
+    <link href="https://hydrotho.github.io/Getting-Started-With-The-PSReadLine-Module-In-PowerShell/"/>
+    <id>https://hydrotho.github.io/Getting-Started-With-The-PSReadLine-Module-In-PowerShell/</id>
+    <published>2022-08-01T04:00:00.000Z</published>
+    <updated>2022-08-01T04:00:00.000Z</updated>
+    
+    
+    <summary type="html">本文将介绍 PowerShell 中的 PSReadLine 模块，并给出一些实用的配置示例。</summary>
+    
+    
+    
+    
+    <category term="Windows" scheme="https://hydrotho.github.io/tags/Windows/"/>
+    
+    <category term="PowerShell" scheme="https://hydrotho.github.io/tags/PowerShell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>创建并使用 PowerShell 配置文件</title>
+    <link href="https://hydrotho.github.io/How-To-Create-And-Use-A-PowerShell-Profile/"/>
+    <id>https://hydrotho.github.io/How-To-Create-And-Use-A-PowerShell-Profile/</id>
+    <published>2022-07-01T04:00:00.000Z</published>
+    <updated>2022-07-01T04:00:00.000Z</updated>
+    
+    
+    <summary type="html">本文将介绍如何创建并使用 PowerShell 配置文件以自定义 PowerShell 会话环境。</summary>
+    
+    
+    
+    
+    <category term="Windows" scheme="https://hydrotho.github.io/tags/Windows/"/>
+    
+    <category term="PowerShell" scheme="https://hydrotho.github.io/tags/PowerShell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在 PowerShell 中使用 sudo 命令实现临时提权</title>
+    <link href="https://hydrotho.github.io/How-To-Use-Sudo-Command-In-PowerShell/"/>
+    <id>https://hydrotho.github.io/How-To-Use-Sudo-Command-In-PowerShell/</id>
+    <published>2022-06-01T04:00:00.000Z</published>
+    <updated>2022-06-01T04:00:00.000Z</updated>
+    
+    
+    <summary type="html">本文将介绍如何在 PowerShell 中使用 sudo 命令实现临时提权，以及一些其它的提权方法。</summary>
+    
+    
+    
+    
+    <category term="Windows" scheme="https://hydrotho.github.io/tags/Windows/"/>
+    
+    <category term="PowerShell" scheme="https://hydrotho.github.io/tags/PowerShell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>深入了解 Useradd 命令</title>
+    <link href="https://hydrotho.github.io/Learn-More-About-Useradd-Command/"/>
+    <id>https://hydrotho.github.io/Learn-More-About-Useradd-Command/</id>
+    <published>2022-01-01T04:00:00.000Z</published>
+    <updated>2022-01-01T04:00:00.000Z</updated>
+    
+    
+    <summary type="html">添加用户是 Linux 中最基本的操作之一，但最常用的 useradd 命令在不同 Linux 发行版可能有着不同的行为，而方便好用的 adduser 命令不是所有 Linux 发行版都自带。深入了解 useradd 命令可以帮助我们更好地管理 Linux 系统。</summary>
+    
+    
+    
+    
+    <category term="Linux" scheme="https://hydrotho.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SSH 优化</title>
+    <link href="https://hydrotho.github.io/SSH-Optimization/"/>
+    <id>https://hydrotho.github.io/SSH-Optimization/</id>
+    <published>2019-10-01T04:00:00.000Z</published>
+    <updated>2021-12-31T04:00:00.000Z</updated>
+    
+    
+    <summary type="html">本文介绍如何优化 SSH 相关配置以提升安全性和日常使用体验。</summary>
+    
+    
+    
+    
+    <category term="Linux" scheme="https://hydrotho.github.io/tags/Linux/"/>
+    
+    <category term="SSH" scheme="https://hydrotho.github.io/tags/SSH/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows 10 安装第三方主题</title>
+    <link href="https://hydrotho.github.io/Windows-10-Themes/"/>
+    <id>https://hydrotho.github.io/Windows-10-Themes/</id>
+    <published>2019-09-15T04:00:00.000Z</published>
+    <updated>2021-12-15T04:00:00.000Z</updated>
+    
+    
+    <summary type="html">本文介绍如何在 Windows 系统上使用 UltraUXThemePatcher 或 SecureUxTheme 安装第三方主题。</summary>
+    
+    
+    
+    
+    <category term="Windows" scheme="https://hydrotho.github.io/tags/Windows/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>利用 Miniflux 自建 RSS</title>
+    <link href="https://hydrotho.github.io/Miniflux-Build-Guide/"/>
+    <id>https://hydrotho.github.io/Miniflux-Build-Guide/</id>
+    <published>2019-08-31T16:00:00.000Z</published>
+    <updated>2021-12-01T16:00:00.000Z</updated>
+    
+    
+    <summary type="html">本文介绍如何使用 Miniflux 搭建属于自己的 RSS 服务。RSS 是一种消息来源格式规范，用以聚合多个网站更新的内容并自动通知网站订阅者。使用 RSS 后，网站订阅者便无需再手动查看网站是否有新的内容，同时 RSS 可将多个网站更新的内容进行整合，以摘要的形式呈现，有助于订阅者快速获取重要信息，并选择性地点阅查看。</summary>
+    
+    
+    
+    
+    <category term="Linux" scheme="https://hydrotho.github.io/tags/Linux/"/>
+    
+    <category term="RSS" scheme="https://hydrotho.github.io/tags/RSS/"/>
+    
+  </entry>
+  
+</feed>
